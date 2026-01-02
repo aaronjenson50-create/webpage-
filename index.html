@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Management System</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-image">
+            <img src="https://images.pexels.com/photos/1307698/pexels-photo-1307698.jpeg?auto=compress&cs=tinysrgb&w=1200&h=400&fit=crop" alt="Restaurant Interior" class="hero-image">
+        </div>
+        <div class="header-content">
+            <h1>🍽️ Restaurant Management System</h1>
+            <nav class="nav-tabs">
+                <button class="nav-btn active" data-section="menu">Menu</button>
+                <button class="nav-btn" data-section="manage">Manage Menu</button>
+                <button class="nav-btn" data-section="sales">Sales Report</button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Menu Display Section -->
+        <section id="menu-section" class="section active">
+            <div class="section-bg">
+                <img src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Restaurant dining" class="section-bg-image">
+            </div>
+            <h2>🍽️ Our Menu</h2>
+            <div class="menu-grid" id="menu-grid">
+                <!-- Menu items will be dynamically loaded here -->
+            </div>
+        </section>
+
+        <!-- Manage Menu Section -->
+        <section id="manage-section" class="section">
+            <div class="section-bg">
+                <img src="https://images.pexels.com/photos/3184192/pexels-photo-3184192.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Kitchen management" class="section-bg-image">
+            </div>
+            <h2>⚙️ Manage Menu</h2>
+            <div class="manage-form">
+                <h3>Add/Edit Menu Item</h3>
+                <form id="menu-form">
+                    <input type="hidden" id="menu-item-id">
+                    <div class="form-group">
+                        <label for="item-name">Item Name:</label>
+                        <input type="text" id="item-name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-price">Price (₹):</label>
+                        <input type="number" id="item-price" step="0.01" min="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-category">Category:</label>
+                        <input type="text" id="item-category" placeholder="e.g., Breakfast, Snacks" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-image">Image URL:</label>
+                        <input type="url" id="item-image" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" id="save-btn">Add Item</button>
+                        <button type="button" id="cancel-btn" style="display:none;">Cancel</button>
+                    </div>
+                </form>
+            </div>
+            <div class="manage-list">
+                <h3>Existing Items</h3>
+                <div id="manage-items-list">
+                    <!-- Managed items will be displayed here -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Sales Report Section -->
+        <section id="sales-section" class="section">
+            <div class="section-bg">
+                <img src="https://images.pexels.com/photos/3184338/pexels-photo-3184338.jpeg?auto=compress&cs=tinysrgb&w=1200&h=800&fit=crop" alt="Business analytics" class="section-bg-image">
+            </div>
+            <h2>📊 Monthly Sales Report</h2>
+            <div class="sales-controls">
+                <label for="report-month">Select Month:</label>
+                <input type="month" id="report-month">
+                <button id="generate-report-btn">📈 Generate Report</button>
+            </div>
+            <div id="sales-report-content">
+                <!-- Sales report will be displayed here -->
+            </div>
+        </section>
+
+        <!-- Cart Sidebar -->
+        <aside class="cart-sidebar" id="cart-sidebar">
+            <div class="cart-header">
+                <h2>🛒 Your Cart</h2>
+                <button class="close-cart" id="close-cart">&times;</button>
+            </div>
+            <div class="cart-image">
+                <img src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=400&h=200&fit=crop" alt="Food items" class="cart-bg-image">
+            </div>
+            <div class="cart-items" id="cart-items">
+                <div class="empty-cart-container">
+                    <img src="https://images.pexels.com/photos/3186654/pexels-photo-3186654.jpeg?auto=compress&cs=tinysrgb&w=300&h=200&fit=crop" alt="Empty cart" class="empty-cart-image">
+                    <p class="empty-cart">Your cart is empty</p>
+                    <p class="empty-cart-hint">Add some delicious items from our menu!</p>
+                </div>
+            </div>
+            <div class="cart-footer">
+                <div class="cart-total">
+                    <strong>Total: ₹<span id="cart-total">0.00</span></strong>
+                </div>
+                <div class="cart-actions">
+                    <button class="btn btn-secondary" id="clear-cart-btn">Clear Cart</button>
+                    <button class="btn btn-primary" id="pay-now-btn">Pay Now</button>
+                    <button class="btn btn-primary" id="print-bill-btn">🖨️ Print Bill</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Cart Toggle Button -->
+        <button class="cart-toggle" id="cart-toggle">
+            <span class="cart-icon">🛒</span>
+            <span class="cart-count" id="cart-count">0</span>
+        </button>
+    </div>
+
+    <!-- QR Payment Modal -->
+    <div class="modal" id="qr-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>💳 Payment</h2>
+                <button class="close-modal" id="close-qr-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="payment-image">
+                    <img src="https://images.pexels.com/photos/1640772/pexels-photo-1640772.jpeg?auto=compress&cs=tinysrgb&w=400&h=200&fit=crop" alt="Payment" class="payment-bg-image">
+                </div>
+                <div class="qr-code-container">
+                    <div id="qr-code"></div>
+                    <p>Scan QR code to complete payment</p>
+                </div>
+                <div class="payment-summary">
+                    <p><strong>Total Amount: ₹<span id="payment-total">0.00</span></strong></p>
+                </div>
+                <div class="payment-actions">
+                    <button class="btn btn-success" id="confirm-payment-btn">Confirm Payment</button>
+                    <button class="btn btn-secondary" id="cancel-payment-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+
